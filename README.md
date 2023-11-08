@@ -1,3 +1,3 @@
 # README
 
-Background notification service fro gotify API
+Background notification service for gotify API
