@@ -1,4 +1,4 @@
-import 'package:flutter_gotify/api_client.dart';
+import 'package:flutter_gotify/client/api_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
@@ -43,7 +43,9 @@ void main() {
       when(mockHttpClient.get(url, headers: anyNamed('headers')))
           .thenAnswer((_) async => mockResponse);
 
-      expect(gotifyClient.getApplications(), throwsException);
+      final applications = await gotifyClient.getApplications();
+
+      expect(applications, throwsException);
     });
 
     test('createApplication returns an ApplicationModel', () async {
@@ -85,7 +87,9 @@ void main() {
       when(mockHttpClient.get(url, headers: anyNamed('headers')))
           .thenAnswer((_) async => mockResponse);
 
-      expect(gotifyClient.getMessages(), throwsException);
+      final messages = await gotifyClient.getMessages();
+
+      expect(messages, throwsException);
     });
 
     test('sendMessage returns a MessageExternalModel', () async {

@@ -105,6 +105,7 @@ class GotifyClient {
         ),
       );
       final PagingModel paging = PagingModel.fromJson(data["paging"]);
+      print(messages[0].message);
       return (messages, paging);
     } else {
       switch (response.statusCode) {
@@ -215,7 +216,7 @@ class GotifyClient {
         case 500:
           throw Exception(' ${response.statusCode} Internal server error');
         default:
-          throw Exception('Failed to send message (${response.statusCode})');
+          throw Exception('Failed to send message (${response.statusCode} )');
       }
     }
   }
