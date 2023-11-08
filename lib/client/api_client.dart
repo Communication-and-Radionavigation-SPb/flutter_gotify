@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_gotify/background_system/notification_manager.dart';
 import 'package:flutter_gotify/models/application.dart';
 import 'package:flutter_gotify/models/client.dart';
 import 'package:flutter_gotify/models/message_external.dart';
@@ -10,7 +11,7 @@ class GotifyClient {
   final String baseUrl;
   final String token;
   final String messageToken;
-
+  final NotificationManager notification = NotificationManager();
   GotifyClient(
       {required this.baseUrl, required this.token, required this.messageToken});
 
@@ -105,7 +106,6 @@ class GotifyClient {
         ),
       );
       final PagingModel paging = PagingModel.fromJson(data["paging"]);
-      print(messages[0].message);
       return (messages, paging);
     } else {
       switch (response.statusCode) {

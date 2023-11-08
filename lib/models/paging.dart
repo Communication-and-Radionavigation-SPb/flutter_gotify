@@ -1,6 +1,6 @@
 class PagingModel {
   int limit;
-  String next;
+  String? next;
   int since;
 
   int size;

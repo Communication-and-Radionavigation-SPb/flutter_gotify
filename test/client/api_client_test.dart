@@ -160,7 +160,7 @@ void main() {
           .thenAnswer((_) async => mockResponse);
 
       final client = await gotifyClient.createClient('Client 1');
-
+      verify(mockHttpClient.post(url, headers: any)).called(1);
       expect(client.id, 1);
       expect(client.name, 'Client 1');
     });

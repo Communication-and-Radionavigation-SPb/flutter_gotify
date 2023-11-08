@@ -1,6 +1,5 @@
-import 'dart:async';
 import 'dart:io';
-
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -15,16 +14,20 @@ class NotificationManager {
     WidgetsFlutterBinding.ensureInitialized();
 
     final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-        !kIsWeb && Platform.isLinux
+        !kIsWeb && (Platform.isLinux || Platform.isAndroid)
             ? null
             : await flutterLocalNotificationsPlugin
                 .getNotificationAppLaunchDetails();
 
-    final LinuxInitializationSettings initializationSettingsLinux =
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+
+    const LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(defaultActionName: 'defaultName');
 
-    final InitializationSettings initializationSettings =
+    const InitializationSettings initializationSettings =
         InitializationSettings(
+      android: initializationSettingsAndroid,
       linux: initializationSettingsLinux,
     );
 

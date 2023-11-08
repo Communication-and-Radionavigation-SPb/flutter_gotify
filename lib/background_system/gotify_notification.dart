@@ -9,7 +9,9 @@ class GotifyNotification {
 
   Future<void> displayGotifyNotifications() async {
     notificationManager.initialize();
-    final messages = await client.getMessages();
+    final messages = await client.getMessages(
+      limit: 1,
+    );
     for (var message in messages.$1) {
       await notificationManager.showNotification(
           id: message.id, title: message.title, body: message.message);
