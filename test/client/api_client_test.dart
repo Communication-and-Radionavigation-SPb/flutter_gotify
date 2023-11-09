@@ -6,14 +6,14 @@ import 'package:mockito/mockito.dart';
 class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
-  group(GotifyClient, () {
-    late GotifyClient gotifyClient;
+  group(GotifyHttpClient, () {
+    late GotifyHttpClient gotifyClient;
     late MockHttpClient mockHttpClient;
     late Uri url;
 
     setUp(() {
       mockHttpClient = MockHttpClient();
-      gotifyClient = GotifyClient(
+      gotifyClient = GotifyHttpClient(
         baseUrl: 'http://localhost:8080',
         token: 'C8.6OhnAgV6OrjD',
         messageToken: 'AuPOSbvUlfLgzx1',

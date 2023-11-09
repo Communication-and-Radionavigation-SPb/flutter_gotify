@@ -27,4 +27,12 @@ class PagingModel {
     data['size'] = size;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'limit: $limit \n'
+        'next:  $next\n'
+        'since: $since\n'
+        'size:  $size';
+  }
 }

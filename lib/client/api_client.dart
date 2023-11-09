@@ -7,12 +7,12 @@ import 'package:flutter_gotify/models/message_external.dart';
 import 'package:flutter_gotify/models/paging.dart';
 import 'package:http/http.dart' as http;
 
-class GotifyClient {
+class GotifyHttpClient {
   final String baseUrl;
   final String token;
   final String messageToken;
   final NotificationManager notification = NotificationManager();
-  GotifyClient(
+  GotifyHttpClient(
       {required this.baseUrl, required this.token, required this.messageToken});
 
   Future<List<ApplicationModel>> getApplications() async {

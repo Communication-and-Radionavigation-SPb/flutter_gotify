@@ -3,7 +3,7 @@ import 'package:flutter_gotify/client/api_client.dart';
 
 class GotifyNotification {
   final NotificationManager notificationManager = NotificationManager();
-  final GotifyClient client;
+  final GotifyHttpClient client;
 
   GotifyNotification({required this.client});
 
@@ -13,6 +13,8 @@ class GotifyNotification {
       limit: 1,
     );
     for (var message in messages.$1) {
+      print('$message');
+      print(messages.$2);
       await notificationManager.showNotification(
           id: message.id, title: message.title, body: message.message);
     }
