@@ -1,10 +1,10 @@
 class ApplicationModel {
-  int defaultPriority;
+  int? defaultPriority;
   String description;
   int id;
   String image;
   bool internal;
-  String lastUsed;
+  String? lastUsed;
   String name;
   String token;
 
@@ -21,14 +21,14 @@ class ApplicationModel {
 
   factory ApplicationModel.fromJson(Map<String, dynamic> json) {
     return ApplicationModel(
-      defaultPriority: json['defaultPriority'] as int,
-      description: json['description'] as String,
-      id: json['id'] as int,
-      image: json['image'] as String,
-      internal: json['internal'] as bool,
-      lastUsed: json['lastUsed'] as String,
-      name: json['name'] as String,
-      token: json['token'] as String,
+      defaultPriority: json['defaultPriority'],
+      description: json['description'],
+      id: json['id'],
+      image: json['image'],
+      internal: json['internal'],
+      lastUsed: json['lastUsed'],
+      name: json['name'],
+      token: json['token'],
     );
   }
 
@@ -43,5 +43,10 @@ class ApplicationModel {
       'name': name,
       'token': token,
     };
+  }
+
+  @override
+  String toString() {
+    return ' application: $name $token';
   }
 }

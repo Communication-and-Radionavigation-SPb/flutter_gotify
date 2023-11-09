@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter_gotify/background_system/notification_manager.dart';
+import 'package:flutter_gotify/client/client_interface.dart';
 import 'package:flutter_gotify/models/application.dart';
 import 'package:flutter_gotify/models/client.dart';
 import 'package:flutter_gotify/models/message_external.dart';
@@ -11,20 +10,27 @@ class GotifyHttpClient {
   final String baseUrl;
   final String token;
   final String messageToken;
-  final NotificationManager notification = NotificationManager();
+
   GotifyHttpClient(
       {required this.baseUrl, required this.token, required this.messageToken});
 
+  @override
   Future<List<ApplicationModel>> getApplications() async {
+    final Map<String, String> appParams = {};
+    Uri url = Uri.parse('$baseUrl/application');
+
     final response = await http.get(
-      Uri.parse('$baseUrl/application'),
-      headers: {'X-Gotify-Key': token},
+      url,
+      headers: {
+        'X-Gotify-Key': token,
+      },
     );
 
     if (response.statusCode == 200) {
       final dynamic data = jsonDecode(response.body);
       final List<ApplicationModel> applications = List<ApplicationModel>.from(
-          data.map((x) => ApplicationModel.fromJson(x)));
+          data.map((app) => ApplicationModel.fromJson(app)));
+      print(applications);
       return applications;
     } else {
       switch (response.statusCode) {
@@ -44,6 +50,7 @@ class GotifyHttpClient {
     }
   }
 
+  @override
   Future<ApplicationModel> createApplication(String name, String description,
       String image, bool internal, int defaultPriority) async {
     final response = await http.post(
@@ -60,6 +67,7 @@ class GotifyHttpClient {
 
     if (response.statusCode == 200) {
       final dynamic data = jsonDecode(response.body);
+
       final ApplicationModel application = ApplicationModel.fromJson(data);
       return application;
     } else {
@@ -80,6 +88,7 @@ class GotifyHttpClient {
     }
   }
 
+  @override
   Future<(List<MessageExternalModel>, PagingModel)> getMessages(
       {int limit = 100, int? since}) async {
     final Map<String, String> params = {};
@@ -106,6 +115,7 @@ class GotifyHttpClient {
         ),
       );
       final PagingModel paging = PagingModel.fromJson(data["paging"]);
+      print(messages);
       return (messages, paging);
     } else {
       switch (response.statusCode) {
@@ -125,6 +135,7 @@ class GotifyHttpClient {
     }
   }
 
+  @override
   Future<MessageExternalModel> sendMessage(String title, String message,
       int appid, int priority, Map<String, dynamic> extras) async {
     final response = await http.post(
@@ -163,16 +174,20 @@ class GotifyHttpClient {
     }
   }
 
+  @override
   Future<List<ClientModel>> getClients() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/client'),
-      headers: {'X-Gotify-Key': token},
-    );
+    Uri url = Uri.parse('$baseUrl/client');
+
+    final response = await http.get(url, headers: {
+      'X-Gotify-Key': token,
+    });
 
     if (response.statusCode == 200) {
       final dynamic data = jsonDecode(response.body);
-      final List<ClientModel> clients =
-          List<ClientModel>.from(data.map((x) => ClientModel.fromJson(x)));
+      final List<ClientModel> clients = List.from(data.map(
+        (cl) => ClientModel.fromJson(cl),
+      ));
+      print(clients);
       return clients;
     } else {
       switch (response.statusCode) {
@@ -192,6 +207,7 @@ class GotifyHttpClient {
     }
   }
 
+  @override
   Future<ClientModel> createClient(String name) async {
     final response = await http.post(
       Uri.parse('$baseUrl/client'),
