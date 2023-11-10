@@ -8,11 +8,13 @@ import 'package:http/http.dart' as http;
 
 class GotifyHttpClient implements GotifyClient {
   final String baseUrl;
-  final String token;
-  final String messageToken;
+  final String appToken;
+  final String clientToken;
 
   GotifyHttpClient(
-      {required this.baseUrl, required this.token, required this.messageToken});
+      {required this.baseUrl,
+      required this.appToken,
+      required this.clientToken});
 
   @override
   Future<List<ApplicationModel>> getApplications() async {
@@ -22,7 +24,7 @@ class GotifyHttpClient implements GotifyClient {
     final response = await http.get(
       url,
       headers: {
-        'X-Gotify-Key': token,
+        'X-Gotify-Key': appToken,
       },
     );
 
@@ -66,7 +68,7 @@ class GotifyHttpClient implements GotifyClient {
 
     final response = await http.get(
       url,
-      headers: {'X-Gotify-Key': token},
+      headers: {'X-Gotify-Key': appToken},
     );
 
     if (response.statusCode == 200) {
@@ -102,7 +104,7 @@ class GotifyHttpClient implements GotifyClient {
     Uri url = Uri.parse('$baseUrl/client');
 
     final response = await http.get(url, headers: {
-      'X-Gotify-Key': token,
+      'X-Gotify-Key': appToken,
     });
 
     if (response.statusCode == 200) {

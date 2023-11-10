@@ -1,33 +1,43 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter_gotify/models/message_external.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class GotifyWebSocketClient {
   final String baseUrl;
-  final String token;
-  final String messageToken;
+  final String appToken;
+  final String clientToken;
   late WebSocketChannel _channel;
 
   GotifyWebSocketClient({
     required this.baseUrl,
-    required this.token,
-    required this.messageToken,
+    required this.appToken,
+    required this.clientToken,
   });
 
-  void connect() {
+  Future<void> connect() {
     _channel = WebSocketChannel.connect(
-      Uri.parse('$baseUrl/stream/?token=$token'),
+      Uri.parse('$baseUrl/stream/?token=$appToken'),
     );
+
+    return _channel.ready;
   }
 
   void disconnect() {
     _channel.sink.close();
   }
 
-  @override
-  Future<void> getMessages() async {
-    connect();
-
-    _channel.stream.listen((event) {
-      print(event);
-    });
+  Stream<MessageExternalModel> messages() {
+    return _channel.stream.transform(StreamTransformer.fromHandlers(
+      handleData: (data, sink) {
+        try {
+          final json = jsonDecode(data);
+          final message = MessageExternalModel.fromJson(json);
+          sink.add(message);
+        } catch (e) {
+          sink.addError(e);
+        }
+      },
+    ));
   }
 }

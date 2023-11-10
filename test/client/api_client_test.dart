@@ -15,8 +15,8 @@ void main() {
       mockHttpClient = MockHttpClient();
       gotifyClient = GotifyHttpClient(
         baseUrl: 'http://localhost:8080',
-        token: 'C8.6OhnAgV6OrjD',
-        messageToken: 'AuPOSbvUlfLgzx1',
+        appToken: 'C8.6OhnAgV6OrjD',
+        clientToken: 'AuPOSbvUlfLgzx1',
       );
       url = Uri.parse('http://localhost:8080');
     });

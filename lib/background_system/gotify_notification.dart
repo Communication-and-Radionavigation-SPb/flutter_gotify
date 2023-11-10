@@ -1,22 +1,36 @@
 import 'package:flutter_gotify/background_system/notification_manager.dart';
 import 'package:flutter_gotify/client/api_client.dart';
+import 'package:flutter_gotify/client/ws_client.dart';
 
 class GotifyNotification {
   final NotificationManager notificationManager = NotificationManager();
-  final GotifyHttpClient client;
 
-  GotifyNotification({required this.client});
-
-  Future<void> displayGotifyNotifications() async {
+  Future<void> displayHttpNotifications({
+    required GotifyHttpClient httpClient,
+    int limit = 1,
+  }) async {
     notificationManager.initialize();
-    final messages = await client.getMessages(
-      limit: 1,
+    final messages = await httpClient.getMessages(
+      limit: limit,
     );
     for (var message in messages.$1) {
-      print('$message');
-      print(messages.$2);
       await notificationManager.showNotification(
-          id: message.id, title: message.title, body: message.message);
+        id: message.id,
+        title: message.title,
+        body: message.message,
+      );
     }
+  }
+
+  Future<void> displayWebSocketNotification(
+      {required GotifyWebSocketClient webSocketClient}) async {
+    notificationManager.initialize();
+    webSocketClient.messages().listen((message) async {
+      await notificationManager.showNotification(
+        id: message.id,
+        title: message.title,
+        body: message.message,
+      );
+    });
   }
 }
