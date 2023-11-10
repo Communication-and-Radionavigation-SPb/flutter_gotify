@@ -1,10 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter_gotify/models/application.dart';
-import 'package:flutter_gotify/models/client.dart';
-import 'package:flutter_gotify/models/message_external.dart';
-import 'package:flutter_gotify/models/paging.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class GotifyWebSocketClient {
@@ -21,11 +14,20 @@ class GotifyWebSocketClient {
 
   void connect() {
     _channel = WebSocketChannel.connect(
-      Uri.parse('$baseUrl/stream?token=$token'),
+      Uri.parse('$baseUrl/stream/?token=$token'),
     );
   }
 
   void disconnect() {
     _channel.sink.close();
+  }
+
+  @override
+  Future<void> getMessages() async {
+    connect();
+
+    _channel.stream.listen((event) {
+      print(event);
+    });
   }
 }

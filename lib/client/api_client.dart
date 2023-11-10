@@ -6,7 +6,7 @@ import 'package:flutter_gotify/models/message_external.dart';
 import 'package:flutter_gotify/models/paging.dart';
 import 'package:http/http.dart' as http;
 
-class GotifyHttpClient {
+class GotifyHttpClient implements GotifyClient {
   final String baseUrl;
   final String token;
   final String messageToken;
@@ -32,44 +32,6 @@ class GotifyHttpClient {
           data.map((app) => ApplicationModel.fromJson(app)));
       print(applications);
       return applications;
-    } else {
-      switch (response.statusCode) {
-        case 400:
-          throw Exception(' request');
-        case 401:
-          throw Exception('${response.statusCode} Unauthorized');
-        case 403:
-          throw Exception(' ${response.statusCode} Forbidden');
-        case 404:
-          throw Exception(' ${response.statusCode}  Not found');
-        case 500:
-          throw Exception(' ${response.statusCode} Internal server error');
-        default:
-          throw Exception('Failed to send message (${response.statusCode})');
-      }
-    }
-  }
-
-  @override
-  Future<ApplicationModel> createApplication(String name, String description,
-      String image, bool internal, int defaultPriority) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/application'),
-      headers: {'X-Gotify-Key': token, 'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'name': name,
-        'description': description,
-        'image': image,
-        'internal': internal,
-        'defaultPriority': defaultPriority,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final dynamic data = jsonDecode(response.body);
-
-      final ApplicationModel application = ApplicationModel.fromJson(data);
-      return application;
     } else {
       switch (response.statusCode) {
         case 400:
@@ -136,45 +98,6 @@ class GotifyHttpClient {
   }
 
   @override
-  Future<MessageExternalModel> sendMessage(String title, String message,
-      int appid, int priority, Map<String, dynamic> extras) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/message'),
-      headers: {
-        'X-Gotify-Key': messageToken,
-        'Content-Type': 'application/json'
-      },
-      body: jsonEncode({
-        'title': title,
-        'message': message,
-        'appid': appid,
-        'priority': priority,
-        'extras': extras,
-      }),
-    );
-    if (response.statusCode == 200) {
-      final dynamic data = jsonDecode(response.body);
-      final MessageExternalModel message = MessageExternalModel.fromJson(data);
-      return message;
-    } else {
-      switch (response.statusCode) {
-        case 400:
-          throw Exception(' request');
-        case 401:
-          throw Exception('${response.statusCode} Unauthorized');
-        case 403:
-          throw Exception(' ${response.statusCode} Forbidden');
-        case 404:
-          throw Exception(' ${response.statusCode}  Not found');
-        case 500:
-          throw Exception(' ${response.statusCode} Internal server error');
-        default:
-          throw Exception('Failed to send message (${response.statusCode})');
-      }
-    }
-  }
-
-  @override
   Future<List<ClientModel>> getClients() async {
     Uri url = Uri.parse('$baseUrl/client');
 
@@ -203,36 +126,6 @@ class GotifyHttpClient {
           throw Exception(' ${response.statusCode} Internal server error');
         default:
           throw Exception('Failed to send message (${response.statusCode})');
-      }
-    }
-  }
-
-  @override
-  Future<ClientModel> createClient(String name) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/client'),
-      headers: {'X-Gotify-Key': token, 'Content-Type': 'application/json'},
-      body: jsonEncode({'name': name}),
-    );
-
-    if (response.statusCode == 200) {
-      final dynamic data = jsonDecode(response.body);
-      final ClientModel client = ClientModel.fromJson(data);
-      return client;
-    } else {
-      switch (response.statusCode) {
-        case 400:
-          throw Exception(' request');
-        case 401:
-          throw Exception('${response.statusCode} Unauthorized');
-        case 403:
-          throw Exception(' ${response.statusCode} Forbidden');
-        case 404:
-          throw Exception(' ${response.statusCode}  Not found');
-        case 500:
-          throw Exception(' ${response.statusCode} Internal server error');
-        default:
-          throw Exception('Failed to send message (${response.statusCode} )');
       }
     }
   }

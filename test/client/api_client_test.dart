@@ -48,40 +48,6 @@ void main() {
       expect(applications, throwsException);
     });
 
-    test('createApplication returns an ApplicationModel', () async {
-      final mockResponse = http.Response(
-        '{"id": 1, "name": "App 1"}',
-        200,
-      );
-      when(mockHttpClient.post(url,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => mockResponse);
-
-      final application = await gotifyClient.createApplication(
-        'App 1',
-        'Description',
-        'image.png',
-        true,
-        1,
-      );
-
-      expect(application.id, 1);
-      expect(application.name, 'App 1');
-    });
-
-    test('createApplication throws an exception on non-200 response', () async {
-      final mockResponse = http.Response('Error', 400);
-      when(mockHttpClient.post(url,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => mockResponse);
-
-      expect(
-        gotifyClient.createApplication(
-            'App 1', 'Description', 'image.png', true, 1),
-        throwsException,
-      );
-    });
-
     test('getMessages throws an exception on non-200 response', () async {
       final mockResponse = http.Response('Error', 400);
       when(mockHttpClient.get(url, headers: anyNamed('headers')))
@@ -90,39 +56,6 @@ void main() {
       final messages = await gotifyClient.getMessages();
 
       expect(messages, throwsException);
-    });
-
-    test('sendMessage returns a MessageExternalModel', () async {
-      final mockResponse = http.Response(
-        '{"id": 1, "title": "Message 1"}',
-        200,
-      );
-      when(mockHttpClient.post(url,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => mockResponse);
-
-      final message = await gotifyClient.sendMessage(
-        'Title',
-        'Message',
-        1,
-        1,
-        {'key': 'value'},
-      );
-
-      expect(message.id, 1);
-      expect(message.title, 'Message 1');
-    });
-
-    test('sendMessage throws an exception on non-200 response', () async {
-      final mockResponse = http.Response('Error', 400);
-      when(mockHttpClient.post(url,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => mockResponse);
-
-      expect(
-        gotifyClient.sendMessage('Title', 'Message', 1, 1, {'key': 'value'}),
-        throwsException,
-      );
     });
 
     test('getClients returns a list of ClientModel', () async {
@@ -148,30 +81,6 @@ void main() {
           .thenAnswer((_) async => mockResponse);
 
       expect(gotifyClient.getClients(), throwsException);
-    });
-
-    test('createClient returns a ClientModel', () async {
-      final mockResponse = http.Response(
-        '{"id": 1, "name": "Client 1"}',
-        200,
-      );
-      when(mockHttpClient.post(url,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => mockResponse);
-
-      final client = await gotifyClient.createClient('Client 1');
-      verify(mockHttpClient.post(url, headers: any)).called(1);
-      expect(client.id, 1);
-      expect(client.name, 'Client 1');
-    });
-
-    test('createClient throws an exception on non-200 response', () async {
-      final mockResponse = http.Response('Error', 400);
-      when(mockHttpClient.post(url,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => mockResponse);
-
-      expect(gotifyClient.createClient('Client 1'), throwsException);
     });
   });
 }
