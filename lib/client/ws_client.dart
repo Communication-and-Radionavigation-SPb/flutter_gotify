@@ -16,9 +16,13 @@ class GotifyWebSocketClient {
   });
 
   Future<void> connect() {
-    _channel = WebSocketChannel.connect(
-      Uri.parse('$baseUrl/stream/?token=$appToken'),
-    );
+    Uri url = Uri.parse('$baseUrl/stream/?token=$appToken');
+
+    if (url.scheme == 'http') {
+      url = url.replace(scheme: 'ws');
+    }
+
+    _channel = WebSocketChannel.connect(url);
 
     return _channel.ready;
   }
