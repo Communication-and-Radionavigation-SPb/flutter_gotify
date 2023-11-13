@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'dart:async';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationManager {
@@ -50,10 +50,11 @@ class NotificationManager {
     required int id,
     required String? title,
     required String body,
+    String? page,
   }) async {
     const NotificationDetails notificationDetails = NotificationDetails();
     await flutterLocalNotificationsPlugin.show(
-      payload: '',
+      payload: page,
       id,
       title,
       body,
