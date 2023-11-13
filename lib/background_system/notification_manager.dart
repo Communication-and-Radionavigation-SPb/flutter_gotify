@@ -46,19 +46,18 @@ class NotificationManager {
   }
 
   Future<void> showNotification({
-    String? payload,
     required int id,
     required String? title,
     required String body,
-    String? page,
   }) async {
-    const NotificationDetails notificationDetails = NotificationDetails();
+    const NotificationDetails notificationDetails =
+        NotificationDetails(linux: LinuxNotificationDetails());
     await flutterLocalNotificationsPlugin.show(
-      payload: page,
       id,
       title,
       body,
       notificationDetails,
+      payload: '...',
     );
   }
 
