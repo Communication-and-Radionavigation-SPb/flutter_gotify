@@ -32,6 +32,7 @@ class GotifyWebSocketClient {
   }
 
   Stream<MessageExternalModel> messages() {
+    connect();
     return _channel.stream.transform(StreamTransformer.fromHandlers(
       handleData: (data, sink) {
         try {

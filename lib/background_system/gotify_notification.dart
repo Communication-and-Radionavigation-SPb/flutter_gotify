@@ -27,6 +27,7 @@ class GotifyNotification {
     notificationManager.initialize();
     webSocketClient.messages().listen((message) async {
       await notificationManager.showNotification(
+        payload: 'sss',
         id: message.id,
         title: message.title,
         body: message.message,

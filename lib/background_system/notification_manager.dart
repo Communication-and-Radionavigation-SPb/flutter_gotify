@@ -32,18 +32,28 @@ class NotificationManager {
       linux: initializationSettingsLinux,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse:
+            (NotificationResponse notificationResponse) {
+      switch (notificationResponse.notificationResponseType) {
+        case NotificationResponseType.selectedNotification:
+          selectNotificationStream.add(notificationResponse.payload);
+          break;
+        case NotificationResponseType.selectedNotificationAction:
+          break;
+      }
+    });
   }
 
   Future<void> showNotification({
+    String? payload,
     required int id,
     required String? title,
     required String body,
   }) async {
     const NotificationDetails notificationDetails = NotificationDetails();
     await flutterLocalNotificationsPlugin.show(
+      payload: '',
       id,
       title,
       body,
