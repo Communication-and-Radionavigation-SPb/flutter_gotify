@@ -18,7 +18,6 @@ class GotifyHttpClient implements GotifyClient {
 
   @override
   Future<List<ApplicationModel>> getApplications() async {
-    final Map<String, String> appParams = {};
     Uri url = Uri.parse('$baseUrl/application');
 
     final response = await http.get(
@@ -129,6 +128,19 @@ class GotifyHttpClient implements GotifyClient {
         default:
           throw Exception('Failed to send message (${response.statusCode})');
       }
+    }
+  }
+
+  Future<void> deleteMessage(int messageId) async {
+    Uri url = Uri.parse('$baseUrl/message/$messageId');
+
+    final response = await http.delete(
+      url,
+      headers: {'X-Gotify-Key': appToken},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete message (${response.statusCode})');
     }
   }
 }
