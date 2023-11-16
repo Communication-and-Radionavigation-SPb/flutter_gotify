@@ -143,4 +143,17 @@ class GotifyHttpClient implements GotifyClient {
       throw Exception('Failed to delete message (${response.statusCode})');
     }
   }
+
+  Future<void> deleteAllMessages() async {
+    Uri url = Uri.parse('$baseUrl/message');
+
+    final response = await http.delete(
+      url,
+      headers: {'X-Gotify-Key': appToken},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete all messages (${response.statusCode})');
+    }
+  }
 }
