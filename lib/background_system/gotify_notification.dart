@@ -1,6 +1,6 @@
 import 'package:flutter_gotify/background_system/notification_manager.dart';
-import 'package:flutter_gotify/client/api_client.dart';
-import 'package:flutter_gotify/client/ws_client.dart';
+import 'package:flutter_gotify/client/http_client/api_client.dart';
+import 'package:flutter_gotify/client/websocket_client/ws_client.dart';
 
 class GotifyNotification {
   final NotificationManager notificationManager = NotificationManager();

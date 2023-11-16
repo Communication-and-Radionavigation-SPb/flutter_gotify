@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_gotify/client/websocket_client/client_listener.dart';
 import 'package:flutter_gotify/models/message_external.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 

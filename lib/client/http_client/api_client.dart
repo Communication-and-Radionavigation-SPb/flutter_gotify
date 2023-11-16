@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:flutter_gotify/client/client_interface.dart';
 import 'package:flutter_gotify/models/application.dart';
 import 'package:flutter_gotify/models/client.dart';
 import 'package:flutter_gotify/models/message_external.dart';
 import 'package:flutter_gotify/models/paging.dart';
 import 'package:http/http.dart' as http;
 
-class GotifyHttpClient implements GotifyClient {
+class GotifyHttpClient {
   final String baseUrl;
   final String appToken;
   final String clientToken;
@@ -16,7 +15,6 @@ class GotifyHttpClient implements GotifyClient {
       required this.appToken,
       required this.clientToken});
 
-  @override
   Future<List<ApplicationModel>> getApplications() async {
     Uri url = Uri.parse('$baseUrl/application');
 
@@ -51,7 +49,6 @@ class GotifyHttpClient implements GotifyClient {
     }
   }
 
-  @override
   Future<(List<MessageExternalModel>, PagingModel)> getMessages(
       {int limit = 100, int? since}) async {
     final Map<String, String> params = {};
@@ -98,7 +95,6 @@ class GotifyHttpClient implements GotifyClient {
     }
   }
 
-  @override
   Future<List<ClientModel>> getClients() async {
     Uri url = Uri.parse('$baseUrl/client');
 
