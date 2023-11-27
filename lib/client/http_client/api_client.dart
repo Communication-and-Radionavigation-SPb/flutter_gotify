@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_gotify/models/application.dart';
 import 'package:flutter_gotify/models/client.dart';
 import 'package:flutter_gotify/models/message_external.dart';
@@ -111,15 +112,15 @@ class GotifyHttpClient {
       return clients;
     } else {
       switch (response.statusCode) {
-        case 400:
+        case HttpStatus.badRequest:
           throw Exception(' request');
-        case 401:
+        case HttpStatus.unauthorized:
           throw Exception('${response.statusCode} Unauthorized');
-        case 403:
+        case HttpStatus.forbidden:
           throw Exception(' ${response.statusCode} Forbidden');
-        case 404:
+        case HttpStatus.notFound:
           throw Exception(' ${response.statusCode}  Not found');
-        case 500:
+        case HttpStatus.internalServerError:
           throw Exception(' ${response.statusCode} Internal server error');
         default:
           throw Exception('Failed to send message (${response.statusCode})');

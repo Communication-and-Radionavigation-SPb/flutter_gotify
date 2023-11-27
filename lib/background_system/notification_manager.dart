@@ -50,8 +50,10 @@ class NotificationManager {
     required String? title,
     required String body,
   }) async {
-    const NotificationDetails notificationDetails =
-        NotificationDetails(linux: LinuxNotificationDetails());
+    const NotificationDetails notificationDetails = NotificationDetails(
+      linux: LinuxNotificationDetails(),
+      android: AndroidNotificationDetails('cir-app', 'cir'),
+    );
     await flutterLocalNotificationsPlugin.show(
       id,
       title,
