@@ -1,6 +1,6 @@
 class PagingModel {
   int limit;
-  String next;
+  String? next;
   int since;
 
   int size;
@@ -26,5 +26,13 @@ class PagingModel {
     data['since'] = since;
     data['size'] = size;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'limit: $limit \n'
+        'next:  $next\n'
+        'since: $since\n'
+        'size:  $size';
   }
 }

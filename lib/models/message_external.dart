@@ -40,4 +40,15 @@ class MessageExternalModel {
     data['title'] = title;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'app id: $appid\n'
+        'date: $date\n'
+        'extras: $extras\n'
+        'id: $id\n'
+        'message: $message\n'
+        'priority: $priority\n'
+        'title: $title';
+  }
 }

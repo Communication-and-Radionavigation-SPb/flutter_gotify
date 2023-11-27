@@ -1,6 +1,6 @@
 class ClientModel {
   int id;
-  String lastUsed;
+  String? lastUsed;
   String name;
   String token;
 
@@ -27,5 +27,10 @@ class ClientModel {
     data['name'] = name;
     data['token'] = token;
     return data;
+  }
+
+  @override
+  String toString() {
+    return ' clent: $name, $token';
   }
 }
